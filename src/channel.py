@@ -4,8 +4,8 @@ from googleapiclient.discovery import build
 from pathlib import Path
 
 
-api_key: str = os.getenv('YT_API_KEY')
-
+# api_key: str = os.getenv('YT_API_KEY')
+api_key: str = 'AIzaSyCX2s1NAM6LvVH7YBWp7dJLlEWFrJ2Q74c'
 
 class Channel:
     """Класс для ютуб-канала"""
@@ -14,6 +14,30 @@ class Channel:
     def __init__(self, channel_id: str) -> None:
         """Экземпляр инициализируется id канала. Дальше все данные будут подтягиваться по API."""
         self.__channel_id = channel_id
+
+    def __str__(self):
+        return f'{self.title} ({self.url})'
+
+    def __add__(self, other):
+        return self.count_subscribers + other.count_subscribers
+
+    def __sub__(self, other):
+        return self.count_subscribers - other.count_subscribers
+
+    def __gt__(self, other):
+        return self.count_subscribers > other.count_subscribers
+
+    def __ge__(self, other):
+        return self.count_subscribers >= other.count_subscribers
+
+    def __lt__(self, other):
+        return self.count_subscribers < other.count_subscribers
+
+    def __le__(self, other):
+        return self.count_subscribers <= other.count_subscribers
+
+    def __eg__(self, other):
+        return self.count_subscribers == other.count_subscribers
 
     @property
     def __data_info(self):
@@ -44,7 +68,7 @@ class Channel:
     @property
     def count_subscribers(self):
         count_subscribers = self.__data_info['items'][0]['statistics']['subscriberCount']
-        return count_subscribers
+        return int(count_subscribers)
 
     @property
     def view_count(self):
