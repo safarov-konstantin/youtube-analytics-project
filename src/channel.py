@@ -4,8 +4,8 @@ from googleapiclient.discovery import build
 from pathlib import Path
 
 
-# api_key: str = os.getenv('YT_API_KEY')
-api_key: str = 'AIzaSyCX2s1NAM6LvVH7YBWp7dJLlEWFrJ2Q74c'
+api_key: str = os.getenv('YT_API_KEY')
+
 
 class Channel:
     """Класс для ютуб-канала"""
