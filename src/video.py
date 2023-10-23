@@ -7,14 +7,21 @@ class Video:
         self.id_vidio = video_id
         self.youtube = Channel.get_service()
         self.video_id = video_id
-        video_response = self.youtube.videos().list(part='snippet,statistics,contentDetails,topicDetails',
-                                                    id=video_id
-                                                    ).execute()
-
-        self.title = str(video_response['items'][0]['snippet']['title'])
-        self.count = str(video_response['items'][0]['statistics']['viewCount'])
-        self.like_count = int(video_response['items'][0]['statistics']['likeCount'])
-        self.comment_count = int(video_response['items'][0]['statistics']['commentCount'])
+        try:
+            video_response = self.youtube.videos().list(
+                part='snippet,statistics,contentDetails,topicDetails',
+                id=video_id
+            ).execute()['items'][0]
+        except IndexError:
+            self.title = None
+            self.count = None
+            self.like_count = None
+            self.comment_count = None
+        else:
+            self.title = str(video_response['snippet']['title'])
+            self.count = str(video_response['statistics']['viewCount'])
+            self.like_count = int(video_response['statistics']['likeCount'])
+            self.comment_count = int(video_response['statistics']['commentCount'])
 
     def __repr__(self):
         return f'{self.title}'
